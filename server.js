@@ -102,7 +102,7 @@ function authenticator(req, res, next) {
 
 app.post("/api/login", (req, res) => {
   const { username, password } = req.body;
-  if (username === "Lambda School" && password === "i<3Lambd4") {
+  if (username === "Seth" && password === "iscool") {
     req.loggedIn = true;
     setTimeout(() => {
       res.status(200).json({
@@ -117,6 +117,7 @@ app.post("/api/login", (req, res) => {
 });
 
 app.get("/api/colors", authenticator, (req, res) => {
+  console.log("get request was made");
   res.send(colors);
 });
 
