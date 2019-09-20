@@ -1,14 +1,46 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
 
-const Login = () => {
-  // make a post request to retrieve a token from the api
-  // when you have handled the token, navigate to the BubblePage route
-  return (
-    <>
-      <h1>Welcome to the Bubble App!</h1>
-      <p>Build a login page here</p>
-    </>
-  );
-};
+const LoginComponent = (props) => {
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
 
-export default Login;
+    const handleUser = (e) => {
+        e.preventDefault();
+        setUsername(e.target.value);
+    }
+
+    const handlePassword = e => {
+        e.preventDefault();
+        setPassword(e.target.value);
+    }
+    
+    const onLogin = (e) => {
+        e.preventDefault();
+        setIsLoading(true);
+
+        console.log({username, password})
+
+        axios.post("http://localhost:3000/api/login", {username, password})
+        .then(res => {
+            console.log(res);
+            localStorage.setItem("token", res);
+            props.history.push("/bubbles");
+        })
+        .catch(err => props.history.push("/bubbles"))
+        //Seth is this right?
+
+    }
+
+    return(
+        <form onSubmit={onLogin}>
+            <input type="username" onChange={handleUser}></input>
+            <input type="password" onChange={handlePassword}></input>
+            <button>Submit</button>
+            {isLoading && <p>Loading...</p>}
+        </form>        
+    )
+}
+
+export default LoginComponent;
