@@ -22,10 +22,10 @@ const LoginComponent = (props) => {
 
         console.log({username, password})
 
-        axios.post("http://localhost:3000/api/login", {username, password})
+        axios.post("http://localhost:5000/api/login", {username, password})
         .then(res => {
             console.log(res);
-            localStorage.setItem("token", res);
+            localStorage.setItem("token", res.data.payload);
             props.history.push("/bubbles");
         })
         .catch(err => props.history.push("/bubbles"))
